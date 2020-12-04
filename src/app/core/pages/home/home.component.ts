@@ -8,6 +8,7 @@ import { CurrentDateTimeService } from './../../../shared/services/current-date-
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  // tslint:disable-next-line: semicolon
   public currentDateTime$: BehaviorSubject<moment.Moment>
 
   constructor(
