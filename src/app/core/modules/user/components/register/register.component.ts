@@ -1,3 +1,4 @@
+import { UsernameValidatorService } from './../../../../services/username-validator.service';
 import { UserService } from './../../../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -29,7 +30,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     public currentDateTimeService: CurrentDateTimeService,
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private userNameValidatorService: UsernameValidatorService
   ) { }
 
   public get username(): AbstractControl {
@@ -57,7 +59,8 @@ export class RegisterComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(5)
-        ]
+        ],
+        this.userNameValidatorService.alreadyExists.bind(this.userNameValidatorService)
       ],
       password: [
         '',
@@ -99,6 +102,10 @@ export class RegisterComponent implements OnInit {
         {
           type: 'minlength',
           message: 'Le username doit comporter au minimum 5 caractères'
+        },
+        {
+          type: 'alreadyExists',
+          message: 'Désolé, ce username a déjà été utilisé'
         }
       ],
       password: [

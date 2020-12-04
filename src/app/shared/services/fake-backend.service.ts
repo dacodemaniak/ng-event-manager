@@ -9,6 +9,7 @@ import {
 
 import { Observable, of, throwError } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
+import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 
 let users: UserModel[] = JSON.parse(localStorage.getItem('users')) || [];
 
@@ -44,9 +45,13 @@ export class FakeBackendService implements HttpInterceptor {
 
     function handleRoute(): Observable<HttpEvent<any>> {
       const userRegex: RegExp = /\/api\/v2\/user+$/;
+      const usernameRegex: RegExp = /\/api\/v2\/user\/\w+$/;
+
       switch (true) {
         case userRegex.test(url) && method === 'POST':
           return registerUser(request);
+        case usernameRegex.test(url) && method === 'GET':
+          return findUser();
         default:
           return next.handle(request);
       }
@@ -63,10 +68,24 @@ export class FakeBackendService implements HttpInterceptor {
         return ok(user);
       }
 
+      function findUser(): Observable<HttpResponse<any>> {
+        console.log(`End URL : ${idFromUrl()}`);
+        const user: UserModel = users.find((obj: UserModel) => obj.username === idFromUrl());
+        if (user === undefined) {
+          console.log(`Undefined was found let's play`);
+          return ok();
+        }
+        console.log(`User already exists`);
+        return notFound();
+      }
       // helper functions
 
       function ok(body?: any): Observable<HttpResponse<any>> {
         return of(new HttpResponse({ status: 200, body }));
+      }
+
+      function notFound(): Observable<HttpResponse<any>> {
+        return of(new HttpResponse({status: 409}));
       }
 
       function error(message): Observable<never> {
@@ -81,11 +100,14 @@ export class FakeBackendService implements HttpInterceptor {
         return headers.get('Authorization') === 'Bearer fake-jwt-token';
       }
 
-      function idFromUrl(): number {
+      function idFromUrl(): number | string {
         const urlParts = url.split('/');
-        return +urlParts[urlParts.length - 1];
+        const suffix: number = +urlParts[urlParts.length - 1];
+        if (!isNaN(suffix)) {
+          return suffix;
+        }
+        return urlParts[urlParts.length - 1];
       }
-
     }
   }
 }
