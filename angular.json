@@ -126,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "event-manager"
+  "defaultProject": "event-manager",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { getEnabledCategories } from 'trace_events';
 import { CurrentDateTimeService } from './../../../shared/services/current-date-time.service';
 
 @Component({
