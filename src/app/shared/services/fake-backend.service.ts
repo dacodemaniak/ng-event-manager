@@ -1,3 +1,4 @@
+import { UserModel } from './../../core/models/user-model';
 import { Injectable } from '@angular/core';
 
 import {
@@ -8,6 +9,8 @@ import {
 
 import { Observable, of, throwError } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
+
+let users: UserModel[] = JSON.parse(localStorage.getItem('users')) || [];
 
 @Injectable()
 export class FakeBackendService implements HttpInterceptor {
@@ -43,7 +46,7 @@ export class FakeBackendService implements HttpInterceptor {
       const userRegex: RegExp = /\/api\/v2\/user+$/;
       switch (true) {
         case userRegex.test(url) && method === 'POST':
-          return registerUser(request)
+          return registerUser(request);
         default:
           return next.handle(request);
       }
@@ -51,7 +54,13 @@ export class FakeBackendService implements HttpInterceptor {
       // route functions
 
       function registerUser(request: HttpRequest<any>): Observable<HttpResponse<any>> {
-        return ok(request.body);
+        const user: UserModel = request.body;
+        user.id = users.length + 1;
+        users.push(user);
+        // Persister le tableau entier
+        localStorage.setItem('users', JSON.stringify(users));
+        // Retourner l'observable du User créé
+        return ok(user);
       }
 
       // helper functions
