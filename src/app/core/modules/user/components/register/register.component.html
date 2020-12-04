@@ -1,40 +1,44 @@
-<form>
+<form [formGroup]="registerForm">
     <mat-form-field>
-        <input matInput type="text" id="username" placeholder="User name">
+        <input matInput type="text" id="username" placeholder="User name" formControlName="username">
+        <mat-error>
+          <ng-container *ngFor="let validation of validationMessages.username">
+            <div *ngIf="username.hasError(validation.type) && (username.dirty || username.touched)">{{ validation.message }}</div>
+          </ng-container>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput type="password" id="password"  placeholder="Password" formControlName="password">
+        <mat-error>
+
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput type="password" id="confirm-password"  placeholder="Confirm password" formControlName="confirmPassword">
+        <mat-error>
+          <ng-container *ngIf="fc.confirmPassword.errors && fc.confirmPassword.errors.mustMatch">
+            Les mots de passe ne concordent pas
+          </ng-container>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput type="text" id="email"  placeholder="Your e-mail" formControlName="email">
         <mat-error>
 
         </mat-error>
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput type="password" id="password"  placeholder="Password">
-        <mat-error>
-
-        </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput type="password" id="confirm-password"  placeholder="Confirm password">
-        <mat-error>
-
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-        <input matInput type="text" id="email"  placeholder="Your e-mail">
-        <mat-error>
-
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-        <input matInput type="text" id="confirm-email"  placeholder="Confirm your email">
+        <input matInput type="text" id="confirm-email"  placeholder="Confirm your email" formControlName="confirmEmail">
         <mat-error>
 
         </mat-error>
     </mat-form-field>
 
     <div>
-        <button [disabled]="true">
+        <button [disabled]="registerForm.invalid">
             Register
         </button>
     </div>

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { RegisterComponent } from './components/register/register.component';
 import { UiModule } from 'src/app/shared/ui/ui.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { UiModule } from 'src/app/shared/ui/ui.module';
   imports: [
     CommonModule,
     UserRoutingModule,
-    UiModule
+    UiModule,
+    ReactiveFormsModule
   ]
 })
 export class UserModule { }
