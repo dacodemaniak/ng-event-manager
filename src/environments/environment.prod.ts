@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  worldClock: 'http://worldclockapi.com/api/json/utc/now',
 };

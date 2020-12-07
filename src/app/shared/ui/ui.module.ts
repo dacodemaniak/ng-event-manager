@@ -9,17 +9,19 @@ import { MatInputModule } from '@angular/material/input';
 import { ToolbarTitleDirective } from './directives/toolbar-title.directive';
 import { SubMenuDirective } from './directives/sub-menu.directive';
 import { SubMenuComponent } from './sub-menu/sub-menu.component';
-import { ToolTipComponent } from './tool-tip/tool-tip.component'
+import { ToolTipComponent } from './tool-tip/tool-tip.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    HeaderComponent, 
-    FooterComponent, 
+    HeaderComponent,
+    FooterComponent,
     ToolbarTitleDirective, SubMenuDirective, SubMenuComponent, ToolTipComponent
   ],
   imports: [
     CommonModule,
-    MatToolbarModule
+    MatToolbarModule,
+    RouterModule,
   ],
   exports: [
     HeaderComponent,
