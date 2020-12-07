@@ -1,0 +1,26 @@
+<ng-template #filterNone let-message="customMessage" let-control="control">
+
+  {{ message }}
+</ng-template>
+
+<ul>
+  <ng-template #recursiveList let-list let-childNumber="children">
+    <li *ngFor="let item of list">
+      {{ item.title }} &gt; {{ childNumber }}
+      <ul *ngIf="item.childrenItems.length">
+        <ng-container *ngTemplateOutlet="recursiveList; context: {$implicit: item.childrenItems, children: item.childrenItems.length}"></ng-container>
+      </ul>
+    </li>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="recursiveList; context: {$implicit: itemList, children: 0}"></ng-container>
+</ul>
+
+<ng-container *ngIf="!filterItem()">
+  <div *ngTemplateOutlet="filterNone; context: {customMessage: 'Je suis fourni à partir du templateOutlet', control: fc.username}"></div>
+</ng-container>
+
+<button type="button" (click)="closeSubMenu()">
+  Close
+</button>
+
+<div *ngTemplateOutlet="filterNone; context: {customMessage: itemList.length + ' éléments dans la liste'}"></div>

@@ -6,13 +6,16 @@ import { FooterComponent } from './footer/footer.component'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input';
-import { ToolbarTitleDirective } from './directives/toolbar-title.directive'
+import { ToolbarTitleDirective } from './directives/toolbar-title.directive';
+import { SubMenuDirective } from './directives/sub-menu.directive';
+import { SubMenuComponent } from './sub-menu/sub-menu.component';
+import { ToolTipComponent } from './tool-tip/tool-tip.component'
 
 @NgModule({
   declarations: [
     HeaderComponent, 
     FooterComponent, 
-    ToolbarTitleDirective
+    ToolbarTitleDirective, SubMenuDirective, SubMenuComponent, ToolTipComponent
   ],
   imports: [
     CommonModule,
